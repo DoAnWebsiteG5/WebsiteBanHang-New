@@ -54,6 +54,26 @@ namespace WebsiteBanHang.Controllers
             return View("Checkout", checkout);
         }
 
+        [HttpPost]
+        public IActionResult ConfirmPayment()
+        {
+            // Xử lý việc xác nhận thanh toán ở đây
+            // Ví dụ: Xóa thông tin checkout sau khi thanh toán thành công
+            
+
+            // Lấy thông tin đơn hàng từ session
+            var checkout = HttpContext.Session.GetJson<Checkout>("checkout");
+            HttpContext.Session.Remove("checkout");
+            // Chuyển hướng người dùng đến trang cảm ơn và truyền thông tin đơn hàng
+            return RedirectToAction("ThankYou", "Checkout", new { checkout });
+        }
+
+        public IActionResult ThankYou(Checkout checkout)
+        {
+            // Hiển thị trang cảm ơn đơn hàng và truyền thông tin đơn hàng
+            return View("ThankYou", checkout);
+        }
+
 
     }
 }
