@@ -75,10 +75,34 @@ namespace WebsiteBanHang.Controllers
                 );
         }
 
-        public async Task<IActionResult> ProductsByCart(int categoryId)
+        /*  public async Task<IActionResult> ProductsByCart(int categoryId)
+          {
+              var applicationDbContext = _context.Products.Where(p=>p.CategoryId== categoryId).Include(p => p.Category).Include(p => p.Color);
+              return View("Index", await applicationDbContext.ToListAsync());
+          }*/
+
+        public async Task<IActionResult> ProductsByCart(int categoryId, int productPage = 1)
         {
-            var applicationDbContext = _context.Products.Where(p=>p.CategoryId== categoryId).Include(p => p.Category).Include(p => p.Color);
-            return View("Index", await applicationDbContext.ToListAsync());
+            var products = await _context.Products
+                .Where(p => p.CategoryId == categoryId)
+                .Include(p => p.Category)
+                .Include(p => p.Color)
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync();
+
+            var totalItems = await _context.Products.CountAsync(p => p.CategoryId == categoryId);
+
+            return View("Index", new ProductListViewModel
+            {
+                Products = products,
+                PagingInfo = new PagingInfo
+                {
+                    ItemsPerPage = PageSize,
+                    CurrentPage = productPage,
+                    TotalItems = totalItems
+                }
+            });
         }
 
         // GET: Products/Details/5
