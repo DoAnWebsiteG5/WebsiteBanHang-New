@@ -24,6 +24,15 @@ namespace WebsiteBanHang.Controllers
         {
             return View(await _context.Categories.ToListAsync());
         }
+        private async Task<string> SaveImage(IFormFile image)
+        {
+            var savePath = Path.Combine("wwwroot/img/Hãng xe", image.FileName);
+            using (var fileStream = new FileStream(savePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+            return "/img/Hãng xe/" + image.FileName;
+        }
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -54,10 +63,14 @@ namespace WebsiteBanHang.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,CategoryImage,CategoryOrder")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,CategoryImage,CategoryOrder")] Category category, IFormFile categoryImage)
         {
             if (ModelState.IsValid)
             {
+                if (categoryImage != null)
+                {
+                    category.CategoryImage = await SaveImage(categoryImage);
+                }
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +99,7 @@ namespace WebsiteBanHang.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,CategoryImage,CategoryOrder")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,CategoryImage,CategoryOrder")] Category category, IFormFile categoryImage)
         {
             if (id != category.CategoryId)
             {
@@ -95,6 +108,10 @@ namespace WebsiteBanHang.Controllers
 
             if (ModelState.IsValid)
             {
+                if (categoryImage != null)
+                {
+                    category.CategoryImage = await SaveImage(categoryImage);
+                }
                 try
                 {
                     _context.Update(category);
