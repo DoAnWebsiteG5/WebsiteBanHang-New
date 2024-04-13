@@ -15,7 +15,7 @@ namespace WebsiteBanHang.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public int PageSize = 2;
+        public int PageSize = 9;
         public ProductsController(ApplicationDbContext context)
         {
             _context = context;
