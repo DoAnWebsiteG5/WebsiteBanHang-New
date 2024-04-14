@@ -123,6 +123,14 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Liên hệ</a>
                         </div>
+                        @if (User.IsInRole("Admin"))
+                        {
+                           <div>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Danh Sách Hãng Xe</a>
+
+                                <a href="/Admin/Products/Index" class="nav-link text-dark">Danh Sách Xe Motor</a>
+                            </div>
+                        }
                         <div class="navbar-nav ml-auto py-0">
                            <partial name="_LoginPartial" />
                         </div>
