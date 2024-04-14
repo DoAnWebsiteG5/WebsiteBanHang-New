@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
 using WebsiteBanHang.Data;
 using WebsiteBanHang.Infrastructure;
@@ -6,6 +7,7 @@ using WebsiteBanHang.Models;
 
 namespace WebsiteBanHang.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         public Cart? Cart { get; set; }

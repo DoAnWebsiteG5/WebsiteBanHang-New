@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebsiteBanHang.Data;
 using WebsiteBanHang.Infrastructure;
 using WebsiteBanHang.Models;
 
 namespace WebsiteBanHang.Controllers
 {
+    [Authorize]
     public class CheckoutController : Controller
     {
         public Checkout? checkout { get; set; }

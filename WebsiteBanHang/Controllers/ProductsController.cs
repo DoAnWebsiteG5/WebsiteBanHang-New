@@ -22,6 +22,7 @@ namespace WebsiteBanHang.Controllers
         }
 
         [Authorize]
+        [Authorize(Roles = "Admin")]
         private async Task<string> SaveImage(IFormFile image)
         {
             var savePath = Path.Combine("wwwroot/img/Ảnh xe", image.FileName);
@@ -107,6 +108,7 @@ namespace WebsiteBanHang.Controllers
 
         // GET: Products/Details/5
         [Authorize]
+     
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -128,6 +130,7 @@ namespace WebsiteBanHang.Controllers
 
         // GET: Products/Create
         [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
@@ -141,6 +144,7 @@ namespace WebsiteBanHang.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ProductId,ProductName,ProductDescription,CategoryId,ProductPrice,ProductDiscount,ProductImage,ColorId,IsTrandy,IsArrived")] Product product, IFormFile productImage)
         {
             if (ModelState.IsValid)
@@ -160,6 +164,7 @@ namespace WebsiteBanHang.Controllers
 
         // GET: Products/Edit/5
         [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -183,6 +188,7 @@ namespace WebsiteBanHang.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ProductDescription,CategoryId,ProductPrice,ProductDiscount,ProductImage,ColorId,IsTrandy,IsArrived")] Product product, IFormFile productImage)
         {
             if (id != product.ProductId)
@@ -221,6 +227,7 @@ namespace WebsiteBanHang.Controllers
 
         // GET: Products/Delete/5
         [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -244,6 +251,7 @@ namespace WebsiteBanHang.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);
