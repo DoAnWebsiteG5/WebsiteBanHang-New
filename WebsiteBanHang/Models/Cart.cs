@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel;
 
 namespace WebsiteBanHang.Models
 {
@@ -31,6 +32,7 @@ namespace WebsiteBanHang.Models
     {
         public int CartLineID { get; set; }
         public Product Product { get; set; } = new();
+        [DisplayName("Số lượng")]
         public int Quantity { get; set; }
     }
 }
